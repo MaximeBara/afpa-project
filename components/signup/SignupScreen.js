@@ -1,22 +1,9 @@
 import firebase from 'firebase';
-import base from './../../base';
 
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
 
-export default class SignupScreen extends Component {
-
-     constructor() {
-          super();
-          this.state = {
-               email: '',
-               password: '',
-               surname: '',
-               firstname: '',
-               nickname: '',
-               phoneNumber: ''
-          };
-     }
+export default class SignupScreen extends React.Component {
 
      signUp = (email, password) => {
           console.log("email: ", this.state.email);
@@ -109,4 +96,4 @@ const styles = StyleSheet.create({
           borderWidth: 1,
           marginTop: 8
      }
-})
+});

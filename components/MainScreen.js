@@ -1,20 +1,24 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
+import firebase from 'firebase';
 
-export default class MainScreen extends Component {
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
-     constructor(props) {
-          super(props);
-     }
+export default class MainScreen extends React.Component {
 
      static navigationOptions = {
           title: 'Main'
      }
 
+     constructor(){
+          super();
+          this.state = { currentUser: firebase.auth() };
+          console.log("MainScreen: ", this.state.currentUser);
+     }
+
      render() {
           return (
                <View style={styles.container}>
-                    <Text>Bonjour {this.props.navigation.state.params.email}, ton password est {this.props.navigation.state.params.password}</Text>
+                    <Text>Bonjour {this.state.currentUser && this.state.currentUser.currentUser.email} </Text>
                </View>
           );
      }
@@ -26,12 +30,5 @@ const styles = StyleSheet.create({
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center'
-     },
-     textInput: {
-          height: 40,
-          width: '90%',
-          borderColor: 'gray',
-          borderWidth: 1,
-          marginTop: 8
      }
-})
+});
