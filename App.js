@@ -1,10 +1,15 @@
-import React from 'react';
-import Login from './components/login/login';
+import LoginScreen from './components/login/LoginScreen';
+import SignupScreen from './components/signup/SignupScreen';
+import MainScreen from './components/MainScreen';
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 
-export default class App extends React.Component{
-  render(){
-    return (
-      <Login/>
-    );
-  }
-}
+const MainNavigator = createStackNavigator({
+    Login: {screen: LoginScreen},
+    Signup: {screen: SignupScreen},
+    Main: { screen: MainScreen }
+});
+
+const App = createAppContainer(MainNavigator);
+
+export default App;
