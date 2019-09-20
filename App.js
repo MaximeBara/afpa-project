@@ -1,10 +1,10 @@
-import React from 'react';
-import Login from './components/login/login';
+import React from 'react'
+import ExpensesList from './components/expenses/ExpensesList'
 
-export default class App extends React.Component{
-  render(){
+export default class App extends React.Component {
+  render() {
     return (
-      <Login/>
-    );
+      <ExpensesList/>
+    )
   }
 }
