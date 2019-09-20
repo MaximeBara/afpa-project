@@ -2,14 +2,27 @@ import firebase from 'firebase';
 
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
+import axios from 'axios';
 
 export default class SignupScreen extends React.Component {
 
-     signUp = (email, password) => {
-          console.log("email: ", this.state.email);
+     constructor() {
+          super();
+          console.log("SignupScreen");
+          this.state = { errorMessage: '' };
+     }
+
+     signUp = (state) => {
           try {
-               firebase.auth().createUserWithEmailAndPassword(email, password);
-               
+               firebase.auth().createUserWithEmailAndPassword(state.email, state.password);
+               axios
+                    .post('https://afpa-project.herokuapp.com/users', state)
+                    .then(res => {
+                         this.props.navigation.navigate('Main');
+                    })
+                    .catch(error => {
+                         console.error(error);
+                    })
           } catch (error) {
                console.log(error.toString(error));
           }
@@ -23,10 +36,11 @@ export default class SignupScreen extends React.Component {
           return (
                <View style={styles.container}>
                     <Text>Inscription</Text>
-                    {this.state.errorMessage &&
+                    <Text>{this.state.errorMessage &&
                          <Text style={{ color: 'red' }}>
                               {this.state.errorMessage}
                          </Text>}
+                    </Text>
                     <TextInput
                          style={styles.textInput}
                          autoCapitalize="none"
@@ -76,7 +90,7 @@ export default class SignupScreen extends React.Component {
                          onChangeText={phoneNumber => this.setState({ phoneNumber })}
                          value={this.state.phoneNumber}
                     />
-                    <Button title="Signup" onPress={() => this.signUp(this.state.email, this.state.password)} />
+                    <Button title="Signup" onPress={() => this.signUp(this.state)} />
                </View>
           );
      }
