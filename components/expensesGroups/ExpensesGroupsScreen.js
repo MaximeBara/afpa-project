@@ -3,30 +3,38 @@ import { View, StyleSheet, FlatList, Text, TextInput } from 'react-native';
 import axios from "axios";
 
 
-export default class ExpenseGroupScreen extends Component {
+export default class ExpensesGroupsScreen extends Component {
+
+    static navigationOptions = {
+        title: 'ExpensesGroup'
+    }
 
     constructor(props) {
         super(props);
         this.state = {
             allGroups: []
         }
+        console.log("ExpenseGroupScreen");
     }
 
     componentDidMount() {
-        axios.get('http://10.115.21.16:3000/api/v1/expensesGroups')
+        axios.get('https://afpa-project.herokuapp.com/expensesGroups')
             .then(res => {
                 let expensesGroups = res.data;
+                console.log("Doc: ", expensesGroups);
                 this.setState(
                     {
                         allGroups: expensesGroups
                     }
                 );
-                console.log("AAAAA : ", expensesGroups[0].expenseGroupName);
             });
     }
 
+
+    // Pour aller vers ExpensesScreen : onPress={() => this.props.navigation.navigate('Expenses', {ICI LES DATAS QUE TU VEUX ENVOYER SOUS FORMAT JSON})}
     render() {
         return this.state.allGroups.map((group) => {
+            console.log("Group: ", group);
             return (
                 <View key={1} style={this.styles.container}>
                     <Text>{group.expenseGroupName}</Text>
