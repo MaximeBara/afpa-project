@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import { View, Text, FlatList, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Button, Alert } from 'react-native';
 import { ListItem } from 'react-native-elements';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default class ExpensesScreen extends React.Component {
 
@@ -39,9 +40,9 @@ export default class ExpensesScreen extends React.Component {
       <View>
         <FlatList
           data={this.state.expense}
-          renderItem={({ item, i }) => (
+          renderItem={({ item }) => (
             <ListItem
-              key={i}
+              key={item}
               title={`${item.expenseName}     ${item.amount}€`}
               subtitle={item.expenseDesc}
               leftAvatar={{ source: { uri: "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg" } }}
@@ -49,7 +50,24 @@ export default class ExpensesScreen extends React.Component {
             />
           )}
         />
+
+
+        <View style={styles.buttonPlus}>
+          <Button
+            title="Press me"
+            onPress={() => this.props.navigation.navigate('AddExpense', { parametre: 'toto' })}
+          />
+        </View>
+
       </View>
     );
   }
+
 }
+
+const styles = StyleSheet.create({
+  buttonPlus: {
+    alignItems: 'center',
+    marginTop: 50
+  }
+});

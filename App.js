@@ -7,6 +7,7 @@ import UserScreen from './components/user/UserScreen';
 import SignupScreen from './components/signup/SignupScreen';
 import ExpensesGroupsScreen from './components/expensesGroups/ExpensesGroupsScreen';
 import ExpensesScreen from './components/expenses/ExpensesScreen';
+import AddExpenseScreen from './components/expenses/AddExpenseScreen';
 import LoadingScreen from './components/loading/LoadingScreen';
 import AboutScreen from './components/about/AboutScreen';
 import ContactScreen from './components/contact/ContactScreen';
@@ -104,9 +105,11 @@ NonAuthDrawerNavigator.navigationOptions = {
 }
 
 const AppStackNavigator = createStackNavigator({
-    Loading: { screen: LoadingScreen },
-    NonAuthDrawerNavigator: { screen: NonAuthDrawerNavigator },
-    AuthDrawerNavigator: { screen: AuthDrawerNavigator }
+    Expenses: { screen: ExpensesScreen },
+    AddExpense: { screen : AddExpenseScreen }
+    // Loading: { screen: LoadingScreen },
+    // NonAuthDrawerNavigator: { screen: NonAuthDrawerNavigator },
+    // AuthDrawerNavigator: { screen: AuthDrawerNavigator }
 })
 
 const App = createAppContainer(AppStackNavigator);
