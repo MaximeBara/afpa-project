@@ -18,7 +18,7 @@ export default class SignupScreen extends React.Component {
                axios
                     .post('https://afpa-project.herokuapp.com/users', state)
                     .then(res => {
-                         this.props.navigation.navigate('Main');
+                         this.props.navigation.navigate('ExpensesGroups');
                     })
                     .catch(error => {
                          console.error(error);

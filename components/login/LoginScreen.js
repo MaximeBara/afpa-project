@@ -2,10 +2,14 @@ import firebase from 'firebase';
 
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+
+import { AccessToken, LoginManager } from 'react-native-fbsdk';
+// import { GoogleSignin } from 'react-native-google-signin';
 
 export default class LoginScreen extends React.Component {
 
-     constructor(){
+     constructor() {
           super();
           console.log("LoginScreen");
           this.state = { errorMessage: '' };
@@ -17,41 +21,68 @@ export default class LoginScreen extends React.Component {
                .auth()
                .signInWithEmailAndPassword(email, password)
                .then(() => {
-                    this.props.navigation.navigate('Main', this.state);
+                    this.props.navigation.navigate('ExpensesGroups');
                })
                .catch(error => {
                     this.setState({ errorMessage: error.message })
                })
      }
 
-     async signInWithFacebook() {
-          const appId = Expo.Constants.manifest.extra.facebook.appId;
-          const permissions = ['public_profile', 'email'];  // Permissions required, consult Facebook docs
+     async handleFacebookLogin() {
+          try {
 
-          const {
-               type,
-               token,
-          } = await Expo.Facebook.logInWithReadPermissionsAsync(
-               appId,
-               { permissions }
-          );
+               console.log('LoginManager: ', LoginManager);
 
-          switch (type) {
-               case 'success': {
-                    await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);  // Set persistent auth state
-                    const credential = firebase.auth.FacebookAuthProvider.credential(token);
-                    const facebookProfileData = await firebase.auth().signInAndRetrieveDataWithCredential(credential);  // Sign in with Facebook credential
+               const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
 
-                    // Do something with Facebook profile data
-                    // OR you have subscribed to auth state change, authStateChange handler will process the profile data
-
-                    return Promise.resolve({ type: 'success' });
+               if (result.isCancelled) {
+                    // handle this however suites the flow of your app
+                    throw new Error('User cancelled request');
                }
-               case 'cancel': {
-                    return Promise.reject({ type: 'cancel' });
+
+               console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
+
+               // get the access token
+               const data = await AccessToken.getCurrentAccessToken();
+
+               if (!data) {
+                    // handle this however suites the flow of your app
+                    throw new Error('Something went wrong obtaining the users access token');
                }
+
+               // create a new firebase credential with the token
+               const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+
+               // login with credential
+               const firebaseUserCredential = await firebase.auth().signInWithCredential(credential);
+
+               console.warn(JSON.stringify(firebaseUserCredential.user.toJSON()))
+          } catch (e) {
+               console.error(e);
           }
      }
+
+     // onGoogleLogin = () => {
+     //      GoogleSignin.signIn()
+     //           .then((data) => {
+     //                // Create a new Firebase credential with the token
+     //                const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
+     //                // Login with the credential
+     //                return firebase.auth().signInWithCredential(credential);
+     //           })
+     //           .then((user) => {
+     //                // If you need to do anything with the user, do it here
+     //                // The user will be logged in automatically by the
+     //                // `onAuthStateChanged` listener we set up in App.js earlier
+     //                console.log("Google user :", user);
+     //           })
+     //           .catch((error) => {
+     //                const { code, message } = error;
+     //                // For details of error codes, see the docs
+     //                // The message contains the default Firebase string
+     //                // representation of the error
+     //           });
+     // }
 
      static navigationOptions = {
           title: 'Login'
@@ -86,10 +117,12 @@ export default class LoginScreen extends React.Component {
                          title="Don't have an account? Sign Up"
                          onPress={() => this.props.navigation.navigate('Signup')}
                     />
-                    <Button
-                         title="Login with Facebook"
-                         onPress={() => this.signInWithFacebook()}
-                    />
+                    <FontAwesome.Button name="facebook" backgroundColor="#3b5998" onPress={this.handleFacebookLogin}>
+                         Login with Facebook
+                    </FontAwesome.Button>
+                    {/* <FontAwesome.Button name="google" backgroundColor="##d3d3d3" onPress={this.onGoogleLogin}>
+                         Login with Google
+                    </FontAwesome.Button> */}
                </View>
           );
      }

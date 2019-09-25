@@ -2,7 +2,11 @@ import React from 'react';
 import axios from 'axios';
 import { View, StyleSheet, Text, FlatList } from 'react-native';
 
-export default class ExpensesList extends React.Component {
+export default class ExpensesScreen extends React.Component {
+
+  static navigationOptions = {
+    title: 'Expenses'
+  }
 
   constructor(props) {
     super(props);
@@ -12,6 +16,7 @@ export default class ExpensesList extends React.Component {
       amount: '',
       expense: []
     };
+    console.log("ExpensesScreen");
   }
 
   componentDidMount() {
