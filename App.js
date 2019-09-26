@@ -1,116 +1,88 @@
+/*!
+
+ =========================================================
+ * Material Kit React Native - v1.3.0
+ =========================================================
+ * Product Page: https://demos.creative-tim.com/material-kit-react-native/
+ * Copyright 2019 Creative Tim (http://www.creative-tim.com)
+ * Licensed under MIT (https://github.com/creativetimofficial/material-kit-react-native/blob/master/LICENSE)
+ =========================================================
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+
 import base from './base';
 import firebase from 'firebase';
 
 import React from 'react';
-import LoginScreen from './components/login/LoginScreen';
-import UserScreen from './components/user/UserScreen';
-import SignupScreen from './components/signup/SignupScreen';
-import ExpensesGroupsScreen from './components/expensesGroups/ExpensesGroupsScreen';
-import ExpensesScreen from './components/expenses/ExpensesScreen';
-import LoadingScreen from './components/loading/LoadingScreen';
-import AboutScreen from './components/about/AboutScreen';
-import ContactScreen from './components/contact/ContactScreen';
-import { createAppContainer } from 'react-navigation';
-import { createDrawerNavigator } from 'react-navigation-drawer';
-import { createStackNavigator } from 'react-navigation-stack';
-import createSwitchNavigator from 'react-navigation';
-import { AppRegistry } from 'react-native';
+import { Platform, StatusBar, Image } from 'react-native';
+import { AppLoading } from 'expo';
+import { Asset } from 'expo-asset';
+import { Block, GalioProvider } from 'galio-framework';
 
-console.log("App.js");
+import AppContainer from './navigation/Screens';
+import { Images, products, materialTheme } from './constants/';
 
-const UserStackNav = createStackNavigator({
-    User: {
-        screen: UserScreen,
-        navigationOptions: ({ navigation }) => ({
-            title: 'User',
-        })
+// cache app images
+const assetImages = [
+  Images.Pro,
+  Images.Profile,
+  Images.Avatar,
+  Images.Onboarding,
+];
+
+// cache product images
+products.map(product => assetImages.push(product.image));
+
+function cacheImages(images) {
+  return images.map(image => {
+    if (typeof image === 'string') {
+      return Image.prefetch(image);
+    } else {
+      return Asset.fromModule(image).downloadAsync();
     }
-})
-
-const ExpensesGroupsStackNav = createStackNavigator({
-    ExpensesGroups: {
-        screen: ExpensesGroupsScreen,
-        navigationOptions: ({ navigation }) => ({
-            title: 'ExpensesGroups',
-        })
-    },Expenses: {
-        screen: ExpensesScreen,
-        navigationOptions: ({ navigation }) => ({
-            title: 'Expenses',
-        })
-    }
-})
-
-const AboutStackNav = createStackNavigator({
-    About: {
-        screen: AboutScreen,
-        navigationOptions: ({ navigation }) => ({
-            title: 'About',
-        })
-    }
-})
-
-const ContactStackNav = createStackNavigator({
-    Contact: {
-        screen: ContactScreen,
-        navigationOptions: ({ navigation }) => ({
-            title: 'Contact',
-        })
-    }
-})
-
-const LoginStackNav = createStackNavigator({
-    Login: {
-        screen: LoginScreen,
-        navigationOptions: ({ navigation }) => ({
-            title: 'Login',
-        })
-    }
-})
-
-const SignupStackNav = createStackNavigator({
-    Signup: {
-        screen: SignupScreen,
-        navigationOptions: ({ navigation }) => ({
-            title: 'Signup',
-        })
-    }
-})
-
-const AuthDrawerNavigator = createDrawerNavigator({
-    User: UserStackNav,
-    ExpensesGroups: ExpensesGroupsStackNav,
-    About: AboutStackNav,
-    Contact: ContactStackNav
-}, {
-    initialRouteName: 'ExpensesGroups'
-})
-
-AuthDrawerNavigator.navigationOptions = {
-    header: null
+  });
 }
 
-const NonAuthDrawerNavigator = createDrawerNavigator({
-    Login: LoginStackNav,
-    Signup: SignupStackNav,
-    About: AboutStackNav,
-    Contact: ContactStackNav
-}, {
-    initialRouteName: 'Login'
-})
+export default class App extends React.Component {
+  state = {
+    isLoadingComplete: false,
+  };
 
-NonAuthDrawerNavigator.navigationOptions = {
-    header: null
+  render() {
+    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+      return (
+        <AppLoading
+          startAsync={this._loadResourcesAsync}
+          onError={this._handleLoadingError}
+          onFinish={this._handleFinishLoading}
+        />
+      );
+    } else {
+      return (
+        <GalioProvider theme={materialTheme}>
+          <Block flex>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <AppContainer />
+          </Block>
+        </GalioProvider>
+      );
+    }
+  }
+
+  _loadResourcesAsync = async () => {
+    return Promise.all([
+      ...cacheImages(assetImages),
+    ]);
+  };
+
+  _handleLoadingError = error => {
+    // In this case, you might want to report the error to your error
+    // reporting service, for example Sentry
+    console.warn(error);
+  };
+
+  _handleFinishLoading = () => {
+    this.setState({ isLoadingComplete: true });
+  };
 }
-
-const AppStackNavigator = createStackNavigator({
-    Loading: { screen: LoadingScreen },
-    NonAuthDrawerNavigator: { screen: NonAuthDrawerNavigator },
-    AuthDrawerNavigator: { screen: AuthDrawerNavigator }
-})
-
-const App = createAppContainer(AppStackNavigator);
-
-AppRegistry.registerComponent('main', () => App);
-
-export default App;
