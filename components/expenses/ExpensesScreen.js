@@ -21,7 +21,7 @@ export default class ExpensesScreen extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('https://afpa-project.herokuapp.com/expenses?expenseGroupId=5d832f3ae7179a0c79f06acc')
+    axios.get('http://10.115.21.19:3000/expenses?expenseGroupId=5d80629c50a36c9b802333aa')
       .then((response) => {
         this.setState({
           category: response.data.category,
