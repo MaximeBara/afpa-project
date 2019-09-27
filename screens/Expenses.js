@@ -37,6 +37,10 @@ export default class Expenses extends React.Component {
             })
     }
 
+    handleCreateExpense = () => {
+        this.props.navigation.navigate('CreateExpense');
+    }
+
     render() {
         return (
             <View>
@@ -52,6 +56,13 @@ export default class Expenses extends React.Component {
                         />
                     )}
                 />
+
+                <View style={styles.container}>
+                    <View style={styles.myButton}>
+                        <FontAwesome.Button name="plus" backgroundColor='rgba(238, 130, 238, 0)' onPress={this.handleCreateExpense}>
+                        </FontAwesome.Button>
+                    </View>
+                </View>
             </View>
         );
     }
@@ -104,5 +115,21 @@ const styles = StyleSheet.create({
     products: {
         width: width - theme.SIZES.BASE * 2,
         paddingVertical: theme.SIZES.BASE * 2,
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        marginTop: 50,
+    },
+    myButton: {
+        padding: 5,
+        height: 70,
+        width: 70,
+        borderRadius: 100,
+        backgroundColor: 'purple',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });

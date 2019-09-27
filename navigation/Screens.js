@@ -10,6 +10,7 @@ import LogoutScreen from '../screens/Logout';
 import SignupScreen from '../screens/Signup';
 import ExpensesGroupsScreen from '../screens/ExpensesGroups';
 import ExpensesScreen from '../screens/Expenses';
+import CreateExpenseScreen from '../screens/CreateExpense';
 import AboutScreen from '../screens/About';
 import ContactScreen from '../screens/Contact';
 
@@ -92,6 +93,11 @@ const ExpensesGroupsStack = createStackNavigator({
     screen: ExpensesScreen,
     navigationOptions: ({ navigation }) => ({
       header: <Header title="Expenses" navigation={navigation} />
+    })
+  }, CreateExpense: {
+    screen: CreateExpenseScreen,
+    navigationOptions: ({ navigation }) => ({
+      header: <Header title="CreateExpense" navigation={navigation} />
     })
   }
 },
@@ -215,6 +221,14 @@ const AuthDrawerNavigator = createDrawerNavigator(
       navigationOptions: {
         drawerLabel: ({ focused }) => (
           <Drawer focused={focused} screen="Logout" title="Logout" />
+        )
+      }
+    },
+    CreateExpense: {
+      screen: ExpensesGroupsStack,
+      navigationOptions: {
+        drawerLabel: ({ focused }) => (
+          <Drawer focused={focused} screen="Create Expense" title="Create Expense" />
         )
       }
     }
