@@ -3,16 +3,33 @@ import { StyleSheet, Dimensions, ScrollView, TextInput, View, Button, ActivityIn
 import { Block, Text, Input, theme } from 'galio-framework';
 import { FontAwesome } from '@expo/vector-icons';
 
+import axios from 'axios';
 import firebase from 'firebase';
 
 const { width } = Dimensions.get('screen');
 
 export default class Loading extends React.Component {
 
+    constructor() {
+        super();
+        this.state = { userInfos: {} };
+    }
+
+    async getUserInfos(user) {
+        await axios.get('https://afpa-project.herokuapp.com/users?email=' + user.email)
+            .then(res => {
+                this.setState({ userInfos: res.data[0] });
+                return res.data[0];
+            })
+            .catch(
+                error => console.log('Error :', error));
+    }
+
     componentDidMount() {
         console.log("LoadingScreen");
         firebase.auth().onAuthStateChanged(user => {
-            this.props.navigation.navigate(user ? 'AuthDrawerNavigator' : 'NonAuthDrawerNavigator');
+            const page = (user) ? 'AuthDrawerNavigator' : 'NonAuthDrawerNavigator';
+            this.props.navigation.navigate(page);
         });
     }
 

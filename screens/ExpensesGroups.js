@@ -23,7 +23,6 @@ export default class ExpensesGroups extends React.Component {
         axios.get('https://afpa-project.herokuapp.com/expensesGroups?userId=5d837333c3ae8f68ae680eec')
             .then(res => {
                 let expensesGroups = res.data;
-                console.log("Doc: ", expensesGroups);
                 this.setState(
                     {
                         allGroups: expensesGroups
@@ -46,6 +45,7 @@ export default class ExpensesGroups extends React.Component {
                             bottomDivider
                         />
                     )}
+                    keyExtractor={(item, index) => index.toString()}
                 />
             </View>
         );

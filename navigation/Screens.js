@@ -94,11 +94,6 @@ const ExpensesGroupsStack = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       header: <Header title="Expenses" navigation={navigation} />
     })
-  }, CreateExpense: {
-    screen: CreateExpenseScreen,
-    navigationOptions: ({ navigation }) => ({
-      header: <Header title="CreateExpense" navigation={navigation} />
-    })
   }
 },
   {
@@ -221,14 +216,6 @@ const AuthDrawerNavigator = createDrawerNavigator(
       navigationOptions: {
         drawerLabel: ({ focused }) => (
           <Drawer focused={focused} screen="Logout" title="Logout" />
-        )
-      }
-    },
-    CreateExpense: {
-      screen: ExpensesGroupsStack,
-      navigationOptions: {
-        drawerLabel: ({ focused }) => (
-          <Drawer focused={focused} screen="Create Expense" title="Create Expense" />
         )
       }
     }
