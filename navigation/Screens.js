@@ -13,6 +13,7 @@ import ExpensesScreen from '../screens/Expenses';
 import CreateExpenseScreen from '../screens/CreateExpense';
 import AboutScreen from '../screens/About';
 import ContactScreen from '../screens/Contact';
+import UserScreen from '../screens/User';
 
 import Menu from './Menu';
 import Header from '../components/Header';
@@ -148,6 +149,19 @@ const SignupStack = createStackNavigator({
     transitionConfig,
   });
 
+const UserStack = createStackNavigator({
+  User: {
+    screen: UserScreen,
+    navigationOptions: ({ navigation }) => ({
+      header: <Header white transparent title="User" navigation={navigation} />,
+      headerTransparent: true,
+    })
+  },
+}, {
+  cardStyle: { backgroundColor: '#EEEEEE', },
+  transitionConfig,
+});
+
 const NonAuthDrawerNavigator = createDrawerNavigator(
   {
     Login: {
@@ -208,6 +222,14 @@ const AuthDrawerNavigator = createDrawerNavigator(
       navigationOptions: {
         drawerLabel: ({ focused }) => (
           <Drawer focused={focused} screen="Contact" title="Contact" />
+        ),
+      },
+    },
+    User: {
+      screen: UserStack,
+      navigationOptions: {
+        drawerLabel: ({ focused }) => (
+          <Drawer focused={focused} screen="Profile" title="Profile" />
         ),
       },
     },

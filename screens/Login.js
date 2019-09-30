@@ -11,7 +11,17 @@ export default class Login extends React.Component {
   constructor() {
     super();
     console.log("LoginScreen");
-    this.state = { errorMessage: '' };
+    this.state = { errorMessage: '', userInfos: '' };
+  }
+  
+  async getUserInfos(email) {
+    await axios.get('https://afpa-project.herokuapp.com/users?email=' + email)
+      .then(res => {
+        this.setState({ userInfos: res.data[0] });
+        return res.data[0];
+      })
+      .catch(
+        error => console.log('Error :', error));
   }
 
   handleLogin = () => {

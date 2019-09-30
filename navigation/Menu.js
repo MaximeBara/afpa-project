@@ -9,15 +9,42 @@ import { Images, materialTheme } from "../constants/";
 import firebase from 'firebase';
 import axios from 'axios';
 
+import NavigationService from '../screens/NavigationService.js';
+
 const { width } = Dimensions.get('screen');
+
+//Mettre css sur la page User
+
+function getUserInfos(email) {
+  const data = axios.get('https://afpa-project.herokuapp.com/users?email=' + email)
+    .then(res => {
+      return res.data[0];
+    })
+    .catch(
+      error => console.log('Error :', error));
+  return data;
+}
+
+let userInfos;
+
+firebase.auth().onAuthStateChanged(async user => {
+  if (user) {
+    userInfos = getUserInfos(user.email).then(async data => {
+      userInfos = data;
+    });
+  }
+});
+
+console.log('userInfos: ', userInfos);
 
 const Drawer = (props) => (
   <Block style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
     <Block flex={0.2} style={styles.header}>
-      <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Profile')} >
+      <TouchableWithoutFeedback onPress={() =>
+        NavigationService.navigate('User')} >
         <Block style={styles.profile}>
           <Image source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg' }} style={styles.avatar} />
-          <Text h5 color="white">emouvaxy@gmail.com</Text>
+          <Text h5 color="white">{userInfos.email}</Text>
         </Block>
       </TouchableWithoutFeedback>
       {/* <Block row>
@@ -35,7 +62,7 @@ const Drawer = (props) => (
         <DrawerItems {...props} />
       </ScrollView>
     </Block>
-  </Block>
+  </Block >
 );
 
 const Menu = {

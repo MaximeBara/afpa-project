@@ -1,37 +1,27 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView, TextInput, View, Button, ActivityIndicator } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, TextInput, View, Button } from 'react-native';
 import { Block, Text, Input, theme } from 'galio-framework';
 import { FontAwesome } from '@expo/vector-icons';
 
-import axios from 'axios';
 import firebase from 'firebase';
-
 const { width } = Dimensions.get('screen');
 
-export default class Loading extends React.Component {
+export default class User extends React.Component {
 
     constructor() {
         super();
-        this.state = { userInfos: {} };
-    }
-
-    componentDidMount() {
-        console.log("LoadingScreen");
-        firebase.auth().onAuthStateChanged(user => {
-            const page = (user) ? 'AuthDrawerNavigator' : 'NonAuthDrawerNavigator';
-            this.props.navigation.navigate(page);
-        });
+        console.log("UserScreen");
     }
 
     render() {
         return (
-            <Block flex center style={styles.home}>
+            
                 <View>
-                    <Text>Loading</Text>
-                    <ActivityIndicator size="large" />
+                    <Text>UserScreen</Text>
                 </View>
-            </Block>
+            
         );
+        
     }
 }
 

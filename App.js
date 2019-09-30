@@ -21,6 +21,7 @@ import { Asset } from 'expo-asset';
 import { Block, GalioProvider } from 'galio-framework';
 
 import AppContainer from './navigation/Screens';
+import NavigationService from './screens/NavigationService';
 import { Images, products, materialTheme } from './constants/';
 
 // cache app images
@@ -63,7 +64,9 @@ export default class App extends React.Component {
         <GalioProvider theme={materialTheme}>
           <Block flex>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            <AppContainer />
+            <AppContainer ref={navigatorRef => {
+              NavigationService.setTopLevelNavigator(navigatorRef);
+            }} />
           </Block>
         </GalioProvider>
       );
