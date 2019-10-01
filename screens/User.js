@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView, TextInput, View, Button, Image } from 'react-native';
-import { Block, Text, Input, theme } from 'galio-framework';
+import { StyleSheet, Dimensions, ScrollView, TextInput, View, Image } from 'react-native';
+import { Block, Text, Input, theme, Button } from 'galio-framework';
 import { FontAwesome } from '@expo/vector-icons';
 
 import firebase from 'firebase';
@@ -37,23 +37,26 @@ export default class User extends React.Component {
                 </View>
                 <View style={styles.view}>
                     <Text style={styles.text}>Name :</Text>
-                    <Text
-                        style={styles.text}>{this.state.name}</Text>
+                    <Input
+                        defaultValue={this.state.name}></Input>
                 </View>
                 <View style={styles.view}>
                     <Text style={styles.text}>Firstname :</Text>
-                    <Text
-                        style={styles.text}>{this.state.firstname}</Text>
+                    <Input
+                        defaultValue={this.state.firstname}></Input>
                 </View>
                 <View style={styles.view}>
                     <Text style={styles.text}>Pseudo :</Text>
-                    <Text
-                        style={styles.text}>{this.state.pseudo}</Text>
+                    <Input
+                        defaultValue={this.state.pseudo}></Input>
                 </View>
                 <View style={styles.view}>
                     <Text style={styles.text}>Phone number :</Text>
-                    <Text
-                        style={styles.text}>{this.state.phone}</Text>
+                    <Input
+                        defaultValue={this.state.phone}></Input>
+                </View>
+                <View style={styles.button}>
+                    <Button>Update</Button>
                 </View>
             </View>
         );
@@ -71,8 +74,15 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10
     },
+    button: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 15,
+        marginLeft: 20,
+        marginRight: 10
+    },
     text: {
-        marginTop: 5,
+        marginTop: 17,
     },
     textInput: {
         width: '50%',

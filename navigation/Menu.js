@@ -9,7 +9,7 @@ import { Images, materialTheme } from "../constants/";
 import firebase from 'firebase';
 import axios from 'axios';
 
-import NavigationService from '../screens/NavigationService.js';
+import NavigationService from './NavigationService';
 
 const { width } = Dimensions.get('screen');
 
@@ -31,6 +31,7 @@ function getUserInfos(email) {
 let userInfos;
 
 firebase.auth().onAuthStateChanged(async user => {
+  if(user)
     userInfos = getUserInfos(user.email).then(async data => {
       userInfos = data;
     });
