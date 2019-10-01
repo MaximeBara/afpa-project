@@ -31,20 +31,16 @@ function getUserInfos(email) {
 let userInfos;
 
 firebase.auth().onAuthStateChanged(async user => {
-  if (user) {
     userInfos = getUserInfos(user.email).then(async data => {
       userInfos = data;
     });
-  }
 });
-
-console.log('userInfos: ', userInfos);
 
 const Drawer = (props) => (
   <Block style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
     <Block flex={0.2} style={styles.header}>
       <TouchableWithoutFeedback onPress={() =>
-        NavigationService.navigate('User')} >
+        props.navigation.push('User', { userInfos: userInfos } )} >
         <Block style={styles.profile}>
           <Image source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg' }} style={styles.avatar} />
           <Text h5 color="white">{userInfos.email}</Text>

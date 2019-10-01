@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView, TextInput, View, Button } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, TextInput, View, Button, Image } from 'react-native';
 import { Block, Text, Input, theme } from 'galio-framework';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -8,66 +8,80 @@ const { width } = Dimensions.get('screen');
 
 export default class User extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         console.log("UserScreen");
+        this.state = {
+            name: '',
+            firstname: '',
+            phone: '',
+            pseudo: ''
+        };
+    }
+
+    componentDidMount() {
+        const { params } = this.props.navigation.state;
+        this.setState({
+            name: params && params.userInfos.name,
+            firstname: params && params.userInfos.firstname,
+            phone: params && params.userInfos.phone,
+            pseudo: params && params.userInfos.pseudo
+        });
     }
 
     render() {
         return (
             <View>
-                <Text>UserScreen</Text>
+                <View style={styles.image}>
+                    <Image style={{ margin: 30, width: 100, height: 100 }} source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg' }} />
+                </View>
+                <View style={styles.view}>
+                    <Text style={styles.text}>Name :</Text>
+                    <Text
+                        style={styles.text}>{this.state.name}</Text>
+                </View>
+                <View style={styles.view}>
+                    <Text style={styles.text}>Firstname :</Text>
+                    <Text
+                        style={styles.text}>{this.state.firstname}</Text>
+                </View>
+                <View style={styles.view}>
+                    <Text style={styles.text}>Pseudo :</Text>
+                    <Text
+                        style={styles.text}>{this.state.pseudo}</Text>
+                </View>
+                <View style={styles.view}>
+                    <Text style={styles.text}>Phone number :</Text>
+                    <Text
+                        style={styles.text}>{this.state.phone}</Text>
+                </View>
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    home: {
-        width: width,
+    image: {
+        justifyContent: 'center',
+        alignItems: 'center'
     },
-    search: {
-        height: 48,
-        width: width - 32,
-        marginHorizontal: 16,
-        borderWidth: 1,
-        borderRadius: 3,
+    view: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginLeft: 10,
+        marginRight: 10
     },
-    header: {
-        backgroundColor: theme.COLORS.WHITE,
-        shadowColor: theme.COLORS.BLACK,
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowRadius: 8,
-        shadowOpacity: 0.2,
-        elevation: 4,
-        zIndex: 2,
+    text: {
+        marginTop: 5,
     },
-    tabs: {
-        marginBottom: 24,
-        marginTop: 10,
-        elevation: 4,
+    textInput: {
+        width: '50%',
+        borderColor: 'gray',
+        borderBottomWidth: 1
     },
-    tab: {
-        backgroundColor: theme.COLORS.TRANSPARENT,
-        width: width * 0.50,
-        borderRadius: 0,
-        borderWidth: 0,
-        height: 24,
-        elevation: 0,
-    },
-    tabTitle: {
-        lineHeight: 19,
-        fontWeight: '300'
-    },
-    divider: {
-        borderRightWidth: 0.3,
-        borderRightColor: theme.COLORS.MUTED,
-    },
-    products: {
-        width: width - theme.SIZES.BASE * 2,
-        paddingVertical: theme.SIZES.BASE * 2,
-    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 });
