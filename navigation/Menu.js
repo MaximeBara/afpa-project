@@ -13,9 +13,9 @@ import NavigationService from '../screens/NavigationService.js';
 
 const { width } = Dimensions.get('screen');
 
-//  Mettre css sur la page User
 //  Check userInfos : undefined ??
 //  Facebook via firebase !!
+//  Icones
 //  Et c'est good pour ce soir !
 
 function getUserInfos(email) {

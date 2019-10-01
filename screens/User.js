@@ -15,13 +15,10 @@ export default class User extends React.Component {
 
     render() {
         return (
-            
-                <View>
-                    <Text>UserScreen</Text>
-                </View>
-            
+            <View>
+                <Text>UserScreen</Text>
+            </View>
         );
-        
     }
 }
 
