@@ -4,6 +4,8 @@ import { Block, Text, Input, theme } from 'galio-framework';
 import { FontAwesome } from '@expo/vector-icons';
 
 import firebase from 'firebase';
+import { LoginManager } from 'react-native-fbsdk';
+
 const { width } = Dimensions.get('screen');
 
 export default class Login extends React.Component {
@@ -13,7 +15,7 @@ export default class Login extends React.Component {
     console.log("LoginScreen");
     this.state = { errorMessage: '', userInfos: '' };
   }
-  
+
   async getUserInfos(email) {
     await axios.get('https://afpa-project.herokuapp.com/users?email=' + email)
       .then(res => {
@@ -35,6 +37,24 @@ export default class Login extends React.Component {
       .catch(error => {
         this.setState({ errorMessage: error.message })
       })
+  }
+
+  facebookLogin() {
+    LoginManager.logInWithPermissions(["public_profile"]).then(
+      function (result) {
+        if (result.isCancelled) {
+          console.log("Login cancelled");
+        } else {
+          console.log(
+            "Login success with permissions: " +
+            result.grantedPermissions.toString()
+          );
+        }
+      },
+      function (error) {
+        console.log("Login fail with error: " + error);
+      }
+    );
   }
 
   render() {
@@ -66,9 +86,9 @@ export default class Login extends React.Component {
             title="Don't have an account? Sign Up"
             onPress={() => this.props.navigation.navigate('Signup')}
           />
-          <FontAwesome.Button name="facebook" backgroundColor="#3b5998" onPress={this.handleFacebookLogin}>
+          <FontAwesome.Button name="facebook" backgroundColor="#3b5998" onPress={() => this.facebookLogin()}>
             Login with Facebook
-                    </FontAwesome.Button>
+          </FontAwesome.Button>
           {/* <FontAwesome.Button name="google" backgroundColor="##d3d3d3" onPress={this.onGoogleLogin}>
                          Login with Google
                     </FontAwesome.Button> */}

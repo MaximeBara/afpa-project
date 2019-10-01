@@ -153,8 +153,7 @@ const UserStack = createStackNavigator({
   User: {
     screen: UserScreen,
     navigationOptions: ({ navigation }) => ({
-      header: <Header white transparent title="User" navigation={navigation} />,
-      headerTransparent: true,
+      header: <Header search tabs title="User" navigation={navigation} />
     })
   },
 }, {
