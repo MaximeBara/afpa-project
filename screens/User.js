@@ -1,6 +1,6 @@
-import React from 'react';
-import { StyleSheet, Dimensions, ScrollView, TextInput, View, Image } from 'react-native';
-import { Block, Text, Input, theme, Button } from 'galio-framework';
+import React, { useState } from 'react';
+import { StyleSheet, Dimensions, ScrollView, View, Image } from 'react-native';
+import { Block, Text, TextInput, Input, theme, Button, Toast } from 'galio-framework';
 import { FontAwesome } from '@expo/vector-icons';
 
 import firebase from 'firebase';
@@ -29,7 +29,22 @@ export default class User extends React.Component {
         });
     }
 
+    updateUser() {
+        let newvalues = {
+            name: req.body.name,
+            firstname: req.body.firstname,
+            initials: req.body.initials,
+            pseudo: req.body.pseudo,
+            email: req.body.email,
+            phone: req.body.phone,
+            password: req.body.password,
+            imgPath: req.body.imgPath,
+            friendsList: friendsListObj
+        };
+    }
+
     render() {
+        const [isShow, setShow] = useState(false);
         return (
             <View>
                 <View style={styles.image}>
@@ -38,26 +53,27 @@ export default class User extends React.Component {
                 <View style={styles.view}>
                     <Text style={styles.text}>Name :</Text>
                     <Input
-                        defaultValue={this.state.name}></Input>
+                        defaultValue={this.state.name} onChangeText={(name) => this.setState({name: name})}></Input>
                 </View>
                 <View style={styles.view}>
                     <Text style={styles.text}>Firstname :</Text>
                     <Input
-                        defaultValue={this.state.firstname}></Input>
+                        defaultValue={this.state.firstname} onChangeText={(firstname) => this.setState({firstname: firstname})}></Input>
                 </View>
                 <View style={styles.view}>
                     <Text style={styles.text}>Pseudo :</Text>
                     <Input
-                        defaultValue={this.state.pseudo}></Input>
+                        defaultValue={this.state.pseudo} onChangeText={(pseudo) => this.setState({pseudo: pseudo})}></Input>
                 </View>
                 <View style={styles.view}>
                     <Text style={styles.text}>Phone number :</Text>
                     <Input
-                        defaultValue={this.state.phone}></Input>
+                        defaultValue={this.state.phone} onChangeText={(phone) => this.setState({phone: phone})}></Input>
                 </View>
                 <View style={styles.button}>
-                    <Button>Update</Button>
+                    <Button onPress={() => setShow(!isShow)} style={{ marginBottom: 80 }}>Update</Button>
                 </View>
+                <Toast isShow={isShow} positionIndicator="bottom" color="success">Your profile was updated !</Toast>
             </View>
         );
     }
