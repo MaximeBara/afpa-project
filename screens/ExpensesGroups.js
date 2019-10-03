@@ -13,7 +13,6 @@ export default class ExpensesGroups extends React.Component {
 
     constructor() {
         super();
-        console.log("ExpensesGroupsScreen");
         this.state = {
             allGroups: []
         }
@@ -23,7 +22,6 @@ export default class ExpensesGroups extends React.Component {
         axios.get('https://afpa-project.herokuapp.com/expensesGroups?userId=5d837333c3ae8f68ae680eec')
             .then(res => {
                 let expensesGroups = res.data;
-                console.log("Doc: ", expensesGroups);
                 this.setState(
                     {
                         allGroups: expensesGroups
@@ -42,10 +40,11 @@ export default class ExpensesGroups extends React.Component {
                             key={item.group._id}
                             title={`${item.group.expenseGroupName}`}
                             leftAvatar={{ source: { uri: "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg" } }}
-                            onPress={() => this.props.navigation.navigate('Expenses', { '_id': item.group._id })}
+                            onPress={() => this.props.navigation.navigate('Expenses', { '_id': item.group._id, 'usersList': item.group.usersList })}
                             bottomDivider
                         />
                     )}
+                    keyExtractor={(item, index) => index.toString()}
                 />
             </View>
         );
