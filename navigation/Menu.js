@@ -44,7 +44,7 @@ const Drawer = (props) => (
         props.navigation.push('User', { userInfos: userInfos } )} >
         <Block style={styles.profile}>
           <Image source={{ uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg' }} style={styles.avatar} />
-          <Text h5 color="white">{userInfos.email}</Text>
+          <Text h5 color="white">{userInfos && userInfos.email}</Text>
         </Block>
       </TouchableWithoutFeedback>
       {/* <Block row>
