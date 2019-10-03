@@ -15,43 +15,47 @@ export default class UpdateGroup extends React.Component {
             usersList: [],
             expenseList: []
         };
-        this.handleChange = this.handleChange.bind(this);
+       
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentDidMount() {
-        axios.get('https://afpa-project.herokuapp.com/expensesGroups/5d832ee2e7179a0c79f06aa8')
+    
+             onSubmit(e) {
+       e.preventDefault();
+       const newGroup = {
+           
+           expenseGroupName: expenseGroupName.target.value,
+           usersList: usersList.target.value,
+            expenseList: expenseList.target.value 
+       }
+       axios.post('https://afpa-project.herokuapp.com/expensesGroups', newGroup)
+           .then(res => {
+               console.log(res.data);
+             
+           });
+       this.setState({
+           title: '',
+           completed: false
+       })
+   
+    
+        handleSubmit.onPress(function () {
+        axios.post('https://afpa-project.herokuapp.com/expensesGroups')
             .then((res) => {
-                let itemData = res.data[0];
                 this.setState({
-                    expenseGroupName: itemData.expenseGroupName,
-                    usersList: itemData.usersList,
-                    expenseList: itemData.expenseList
-                });             
+                            expenseGroupName:'',
+                            usersList: [],
+                           
+                        })                   
+                        }
+                    );                
             })
             .catch(function (error) {
                 console.log(error);
             })
-    }
-    
-    handleChange(event) {
-        console.log(event)
-        this.setState({ expenseGroupName: event });
+        
     }
 
-    handleSubmit(event) {
-        axios.put('https://afpa-project.herokuapp.com/expensesGroups/5d832ee2e7179a0c79f06aa8', this.state)
-            .then((res) => {
-                alert('Le nom a été soumis : ' + this.state.expenseGroupName);
-                event.preventDefault();
-                console.log("Res: ", res);
-                
-            })        
-            .catch(function (error) {
-                console.log(error);
-            })
-    }
- 
     render() {
         return (
             <View style={styles.container} >
@@ -65,8 +69,8 @@ export default class UpdateGroup extends React.Component {
                 />
                 <Block >
                     <Input
-                        rounded color='blue' placeholder="group name" defaultValue={this.state.expenseGroupName} onChangeText={this.handleChange} placeholderTextColor='red' />
-                </Block>              
+                        rounded color='blue' placeholder="group name" defaultValue={'Entrez vos informations'}  placeholderTextColor='red' />
+                </Block>
                 <Button
                     title="Confirmer"
                     // onPress={() => Alert.alert('Simple Button pressed')}

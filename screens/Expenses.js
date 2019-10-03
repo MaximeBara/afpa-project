@@ -1,10 +1,9 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView, TextInput, View, Button, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Dimensions, View, FlatList, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import { Block, Text, Input, theme, Button } from 'galio-framework';
-import { FontAwesome } from '@expo/vector-icons';
+import { Text, theme } from 'galio-framework';
 import axios from "axios";
-import firebase from 'firebase';
+
 
 const { width } = Dimensions.get('screen');
 
