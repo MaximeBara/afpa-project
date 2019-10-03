@@ -15,16 +15,6 @@ export default class Loading extends React.Component {
         this.state = { userInfos: {} };
     }
 
-    async getUserInfos(user) {
-        await axios.get('https://afpa-project.herokuapp.com/users?email=' + user.email)
-            .then(res => {
-                this.setState({ userInfos: res.data[0] });
-                return res.data[0];
-            })
-            .catch(
-                error => console.log('Error :', error));
-    }
-
     componentDidMount() {
         console.log("LoadingScreen");
         firebase.auth().onAuthStateChanged(user => {
