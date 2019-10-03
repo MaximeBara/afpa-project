@@ -1,13 +1,11 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView, TextInput, View, Button, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Dimensions, View, FlatList, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import { Block, Text, Input, theme } from 'galio-framework';
-import { FontAwesome } from '@expo/vector-icons';
+import { Text, theme } from 'galio-framework';
+import axios from "axios";
 
-import firebase from 'firebase';
 const { width } = Dimensions.get('screen');
 
-import axios from "axios";
 
 export default class Expenses extends React.Component {
 
@@ -15,6 +13,7 @@ export default class Expenses extends React.Component {
         super(props);
         this.state = {
             _id: this.props.navigation.state.params._id,
+            usersList: this.props.navigation.state.params.usersList,
             category: '',
             expenseName: '',
             amount: '',
@@ -38,7 +37,9 @@ export default class Expenses extends React.Component {
     }
 
     handleCreateExpense = () => {
-        this.props.navigation.navigate('CreateExpense');
+        console.log('debut');
+        this.props.navigation.navigate('CreateExpense', { 'usersList': this.state.usersList });
+        console.log('fin');
     }
 
     render() {
@@ -46,9 +47,9 @@ export default class Expenses extends React.Component {
             <View>
                 <FlatList
                     data={this.state.expense}
-                    renderItem={({ item, i }) => (
+                    renderItem={({ item }) => (
                         <ListItem
-                            key={i}
+                            key={item._id}
                             title={`${item.expenseName}     ${item.amount}€`}
                             subtitle={item.expenseDesc}
                             leftAvatar={{ source: { uri: "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg" } }}
@@ -177,4 +178,41 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 10
     },
+
+    MainContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 10,
+        marginTop: 50,
+      },
+    
+      FacebookStyle: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#485a96',
+        borderWidth: 0.5,
+        borderColor: '#fff',
+        height: 70,
+        width: 70,
+        borderRadius: 140,
+        margin: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+    
+      ImageIconStyle: {
+        padding: 10,
+        margin: 5,
+        height: 25,
+        width: 25,
+        resizeMode: 'stretch',
+      },
+    
+      TextStyle: {
+        color: '#fff',
+        fontSize: 50,
+        fontWeight: 'bold',
+        marginBottom: 4,
+      },
 });
