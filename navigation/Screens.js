@@ -9,6 +9,7 @@ import LoginScreen from '../screens/Login';
 import LogoutScreen from '../screens/Logout';
 import SignupScreen from '../screens/Signup';
 import ExpensesGroupsScreen from '../screens/ExpensesGroups';
+import UpdateGroupScreen from '../screens/UpdateGroup'
 import ExpensesScreen from '../screens/Expenses';
 import CreateExpenseScreen from '../screens/CreateExpense';
 import AboutScreen from '../screens/About';
@@ -84,6 +85,20 @@ const LogoutStack = createStackNavigator({
     transitionConfig,
   });
 
+  const UpdateGroupStack = createStackNavigator({
+    UpdateGroup: {
+      screen: UpdateGroupScreen,
+      navigationOptions: ({ navigation }) => ({
+        header: <Header search tabs title="UpdateGroup" navigation={navigation} />,
+      })
+    },
+  },
+    {
+      cardStyle: {
+        backgroundColor: '#EEEEEE', //this is the backgroundColor for the app
+      },
+      transitionConfig,
+    });
 const ExpensesGroupsStack = createStackNavigator({
   ExpensesGroups: {
     screen: ExpensesGroupsScreen,
@@ -237,6 +252,14 @@ const AuthDrawerNavigator = createDrawerNavigator(
       navigationOptions: {
         drawerLabel: ({ focused }) => (
           <Drawer focused={focused} screen="Logout" title="Logout" />
+        )
+      }
+    },
+    UpdateGroup: {
+      screen: UpdateGroupStack,
+      navigationOptions: {
+        drawerLabel: ({ focused }) => (
+          <Drawer focused={focused} screen="UpdateGroup" title="UpdateGroup" />
         )
       }
     }
