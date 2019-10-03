@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView, TextInput, View, FlatList, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, TextInput, View, Button, FlatList, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { Block, Text, Input, theme, Button } from 'galio-framework';
 import { FontAwesome } from '@expo/vector-icons';
@@ -58,13 +58,6 @@ export default class Expenses extends React.Component {
                     )}
                     keyExtractor={(item, index) => index.toString()}
                 />
-
-                {/* <View style={styles.container}>
-                    <View style={styles.myButton}>
-                        <FontAwesome.Button name="plus" backgroundColor='rgba(238, 130, 238, 0)' onPress={() => handleCreateExpense()}>
-                        </FontAwesome.Button>
-                    </View>
-                </View> */}
 
                 <View style={styles.MainContainer}>
                     <TouchableOpacity style={styles.FacebookStyle} activeOpacity={0.5} onPress={() => this.handleCreateExpense()}>
@@ -139,6 +132,41 @@ const styles = StyleSheet.create({
         backgroundColor: 'purple',
         justifyContent: 'center',
         alignItems: 'center',
+    }, MainContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 10,
+        marginTop: 50,
+    },
+
+    FacebookStyle: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#485a96',
+        borderWidth: 0.5,
+        borderColor: '#fff',
+        height: 70,
+        width: 70,
+        borderRadius: 140,
+        margin: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    ImageIconStyle: {
+        padding: 10,
+        margin: 5,
+        height: 25,
+        width: 25,
+        resizeMode: 'stretch',
+    },
+
+    TextStyle: {
+        color: '#fff',
+        fontSize: 50,
+        fontWeight: 'bold',
+        marginBottom: 4,
     },
 
     MainContainer: {

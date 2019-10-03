@@ -13,6 +13,7 @@ import ExpensesScreen from '../screens/Expenses';
 import CreateExpenseScreen from '../screens/CreateExpense';
 import AboutScreen from '../screens/About';
 import ContactScreen from '../screens/Contact';
+import UserScreen from '../screens/User';
 
 import Menu from './Menu';
 import Header from '../components/Header';
@@ -94,11 +95,6 @@ const ExpensesGroupsStack = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       header: <Header title="Expenses" navigation={navigation} />
     })
-  }, CreateExpense: {
-    screen: CreateExpenseScreen,
-    navigationOptions: ({ navigation }) => ({
-      header: <Header title="CreateExpense" navigation={navigation} />
-    })
   }
 },
   {
@@ -152,6 +148,18 @@ const SignupStack = createStackNavigator({
     },
     transitionConfig,
   });
+
+const UserStack = createStackNavigator({
+  User: {
+    screen: UserScreen,
+    navigationOptions: ({ navigation }) => ({
+      header: <Header search tabs title="User" navigation={navigation} />
+    })
+  },
+}, {
+  cardStyle: { backgroundColor: '#EEEEEE', },
+  transitionConfig,
+});
 
 const NonAuthDrawerNavigator = createDrawerNavigator(
   {
@@ -216,19 +224,19 @@ const AuthDrawerNavigator = createDrawerNavigator(
         ),
       },
     },
+    User: {
+      screen: UserStack,
+      navigationOptions: {
+        drawerLabel: ({ focused }) => (
+          <Drawer focused={focused} screen="Profile" title="Profile" />
+        ),
+      },
+    },
     Logout: {
       screen: LogoutStack,
       navigationOptions: {
         drawerLabel: ({ focused }) => (
           <Drawer focused={focused} screen="Logout" title="Logout" />
-        )
-      }
-    },
-    CreateExpense: {
-      screen: ExpensesGroupsStack,
-      navigationOptions: {
-        drawerLabel: ({ focused }) => (
-          <Drawer focused={focused} screen="Create Expense" title="Create Expense" />
         )
       }
     }
