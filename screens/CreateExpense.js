@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Picker } from 'react-native';
+import { View, StyleSheet, Picker, alert } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { Block, Input, Text, Checkbox, Button } from 'galio-framework';
 import axios from "axios";
@@ -99,8 +99,8 @@ export default class CreateExpense extends React.Component {
         );
     }
 
-    _onPressButton() {
-        alert('You tapped the button!')
+    onPressButton() {
+        alert('You tapped the button!');
     }
 
     render() {
@@ -165,7 +165,7 @@ export default class CreateExpense extends React.Component {
                 <View
                     style={styles.button}>
                     <Button
-                        onPress={this._onPressButton}
+                        onPress={this.onPressButton()}
                     >Press here!
                 </Button>
                 </View>
