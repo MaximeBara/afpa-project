@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, Picker, alert } from 'react-native';
+import { View, StyleSheet, Picker, Button } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { Block, Input, Text, Checkbox, Button } from 'galio-framework';
+import { Block, Input, Text, Checkbox } from 'galio-framework';
 import axios from "axios";
 
 export default class CreateExpense extends React.Component {
@@ -100,10 +100,12 @@ export default class CreateExpense extends React.Component {
     }
 
     onPressButton() {
+        console.log('ONPRESS');
         alert('You tapped the button!');
     }
 
     render() {
+        console.log('RENDER');
         return (
             <View>
                 <View style={styles.view}>
@@ -165,9 +167,10 @@ export default class CreateExpense extends React.Component {
                 <View
                     style={styles.button}>
                     <Button
-                        onPress={this.onPressButton()}
-                    >Press here!
-                </Button>
+                        onPress={() => this.onPressButton()}
+                        title="Press Me"
+                    >
+                    </Button>
                 </View>
             </View>
         );
