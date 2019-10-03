@@ -162,10 +162,13 @@ export default class CreateExpense extends React.Component {
                         {this.checkboxUsersList()}
                     </View>
                 </View>
-                <Button
-                    style={styles.button}
-                    onPress={this._onPressButton}
-                >Press here!</Button>
+                <View
+                    style={styles.button}>
+                    <Button
+                        onPress={this._onPressButton}
+                    >Press here!
+                </Button>
+                </View>
             </View>
         );
     }
