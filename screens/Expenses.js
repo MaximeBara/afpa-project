@@ -4,7 +4,6 @@ import { ListItem } from 'react-native-elements';
 import { Text, theme } from 'galio-framework';
 import axios from "axios";
 
-
 const { width } = Dimensions.get('screen');
 
 
@@ -38,7 +37,9 @@ export default class Expenses extends React.Component {
     }
 
     handleCreateExpense = () => {
+        console.log('debut');
         this.props.navigation.navigate('CreateExpense', { 'usersList': this.state.usersList });
+        console.log('fin');
     }
 
     render() {
