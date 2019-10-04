@@ -50,9 +50,7 @@ export default class Expenses extends React.Component {
     }
 
     handleCreateExpense = () => {
-        console.log('debut');
         this.props.navigation.navigate('CreateExpense', { 'usersList': this.state.usersList });
-        console.log('fin');
     }
 
     render() {

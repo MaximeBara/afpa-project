@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, Picker, View, Button } from 'react-native';
+import { StyleSheet, Dimensions, Picker, View, Button, ScrollView  } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
 import { Block, Text, Input, theme, Icon, Card } from 'galio-framework';
 import firebase from 'firebase';
@@ -45,7 +45,7 @@ export default class UpdateGroup extends React.Component {
                 alert('Le nom a été soumis : ' + this.state.expenseGroupName);
                 event.preventDefault();
                 console.log("Res: ", res);
-                
+
             })        
             .catch(function (error) {
                 console.log(error);
@@ -55,6 +55,7 @@ export default class UpdateGroup extends React.Component {
     render() {
         return (
             <View style={styles.container} >
+                 {/* <ScrollView style={styles.scrollView}> */}
                 <Avatar
                     size="xlarge"
                     rounded
@@ -72,6 +73,7 @@ export default class UpdateGroup extends React.Component {
                     // onPress={() => Alert.alert('Simple Button pressed')}
                     onPress={this.handleSubmit}
                 />
+                 {/* </ScrollView> */}
             </View>
         );
     }
@@ -88,4 +90,8 @@ styles = StyleSheet.create({
     containerBis: {
         backgroundColor: '#fff',
     },
+    // scrollView: {
+    //     backgroundColor: 'pink',
+    //     marginHorizontal: 20,
+    //   },
 });

@@ -111,6 +111,11 @@ const ExpensesGroupsStack = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       header: <Header title="Expenses" navigation={navigation} />
     })
+  }, CreateExpense: {
+    screen: CreateExpenseScreen,
+    navigationOptions: ({ navigation }) => ({
+      header: <Header title="CreateExpense" navigation={navigation} />
+    })
   }, ExpensesReport: {
     screen: ExpensesReportScreen,
     navigationOptions: ({ navigation }) => ({
