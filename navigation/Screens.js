@@ -9,7 +9,8 @@ import LoginScreen from '../screens/Login';
 import LogoutScreen from '../screens/Logout';
 import SignupScreen from '../screens/Signup';
 import ExpensesGroupsScreen from '../screens/ExpensesGroups';
-import UpdateGroupScreen from '../screens/UpdateGroup'
+import UpdateGroupScreen from '../screens/UpdateGroup';
+import addGroupScreen from '../screens/addGroup';
 import ExpensesScreen from '../screens/Expenses';
 import ExpensesReportScreen from '../screens/ExpensesReport';
 import CreateExpenseScreen from '../screens/CreateExpense';
@@ -92,6 +93,11 @@ const UpdateGroupStack = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       header: <Header search tabs title="UpdateGroup" navigation={navigation} />,
     })
+  }, addGroup: {
+    screen: addGroupScreen,
+    navigationOptions: ({ navigation }) => ({
+      header: <Header search tabs title="addGroup" navigation={navigation} />,
+    })
   },
 },
   {
@@ -100,6 +106,7 @@ const UpdateGroupStack = createStackNavigator({
     },
     transitionConfig,
   });
+
 const ExpensesGroupsStack = createStackNavigator({
   ExpensesGroups: {
     screen: ExpensesGroupsScreen,
@@ -273,7 +280,7 @@ const AuthDrawerNavigator = createDrawerNavigator(
           <Drawer focused={focused} screen="UpdateGroup" title="UpdateGroup" />
         )
       }
-    }
+    },
   },
   Menu
 );

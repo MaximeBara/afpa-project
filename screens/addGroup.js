@@ -5,7 +5,8 @@ import { Block, Text, Input, theme, Icon, Card } from 'galio-framework';
 import firebase from 'firebase';
 const { width } = Dimensions.get('screen');
 import axios from "axios";
-
+//import DatePicker from 'react-native-datepicker'
+import RNPickerSelect from 'react-native-picker-select';
 export default class CreateGroup extends React.Component {
 
     constructor(props) {
@@ -14,15 +15,19 @@ export default class CreateGroup extends React.Component {
             expenseGroupName: "",
             Nom: "",
             Prenom: "",
-            Age:"",
-            Pays:""
-           
-        };
+            Age: "",
+            Pays: "",
+            date: "",
+            sexe: "",
 
-        this.handleSubmit = this.handleSubmit.bind(this);
+        };
+        // this.handleChange = this.handleChange.bind(this);
+        // this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-
+    changeSexe = (sexe) => {
+        this.setState({ sexe: sexe })
+    }
     // onSubmit(e) {
     //     e.preventDefault();
     //     const newGroup = {
@@ -42,36 +47,59 @@ export default class CreateGroup extends React.Component {
     //     })
     // }
 
-        // handleSubmit.onPress(function () {
-        //     axios.post('https://afpa-project.herokuapp.com/expensesGroups')
-        //         .then((res) => {
-        //             this.setState({
-        //                 expenseGroupName: '',
-        //                 usersList: [],
+    //    handleSubmit.onPress(function () {
+    //         axios.post('https://afpa-project.herokuapp.com/expensesGroups')
+    //             .then((res) => {
+    //                  this.setState({
+    //                     expenseGroupName: "",
+    //             Nom: "",
+    //             Prenom: "",
+    //             Age: "",
+    //             Pays: "",
+    //             date:""
+    //                 })
+    //             }
+    //             );
+    //     })
+    // .catch(function (error) {
+    //     console.log(error);
+    // })
 
-        //             })
-        //         }
-        //         );
-        // })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     })
 
-        handleChange(event) {
-            this.setState({value: event.target.value});
-          }
-        
-          handleSubmit(event) {
-            alert('Le nom a été soumis : ' + this.state.value);
-            event.preventDefault();
-          }
-        
+    /*
+    * a garder
+    */
+    // handleChange(event) {
+    //     this.setState({ value: event.target.value });
+    // }
+
+    // handleSubmit(event) {
+    //     axios.post('https://afpa-project.herokuapp.com/expensesGroups')
+    //         .then((res) => {
+    //             this.setState({
+    //                 expenseGroupName: "",
+    //                 Nom: "",
+    //                 Prenom: "",
+    //                 Age: "",
+    //                 Pays: "",
+    //                 date: ""
+    //             });
+    //         }
+    //         )
+
+    //     .catch (function(error) {
+    //         console.log(error);
+    //     })
+    //     alert('Le nom a été soumis : ' + this.state.value);
+    //     event.preventDefault();
+    // }
+
 
 
     render() {
         return (
             <View style={styles.container} >
-                {/* <Avatar
+                <Avatar
                     size="xlarge"
                     rounded
                     source={{
@@ -81,43 +109,31 @@ export default class CreateGroup extends React.Component {
                 />
                 <Block >
                     <Input
-                        rounded color='blue' placeholder="group name" defaultValue={'Entrez vos informations'}  placeholderTextColor='red' />
-                    {/* <Input
-                        rounded color='blue' placeholder="group name" defaultValue={'Entrez vos informations'}  placeholderTextColor='red' />
+                        color='blue' placeholder="group name" defaultValue={'Nom du groupe'} placeholderTextColor='red' />
+                    <Text></Text>
                     <Input
-                        rounded color='blue' placeholder="group name" defaultValue={'Entrez vos informations'}  placeholderTextColor='red' /> */}
-                {/* </Block>
+                        rounded color='blue' placeholder="group name" defaultValue={'Nom'} placeholderTextColor='red' />
+                    <Input
+                        rounded color='blue' placeholder="group name" defaultValue={'Prenom'} placeholderTextColor='red' />
+                    <Input
+                        rounded color='blue' placeholder="group name" defaultValue={'Pays'} placeholderTextColor='red' />
+                </Block>
+                <RNPickerSelect
+                    onValueChange={(value) => console.log(value)}
+                    items={[
+                        { label: 'Homme', value: 'Homme' },
+                        { label: 'Femme', value: 'Femme' },
+                        { label: 'Trav', value: 'Trav' },
+                    ]}
+                />
                 <Button
                     title="Confirmer"
                     // onPress={() => Alert.alert('Simple Button pressed')}
                     onPress={this.handleSubmit}
-                />  */}
+                />
 
 
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        Nom :
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-                    </label>
-                    <label>
-                        Nom :
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-                    </label>
-                    <label>
-                        Nom :
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-                    </label>
-                    <label>
-                        Nom :
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-                    </label>
-                    <label>
-                        Nom :
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-                    </label>
-                    <input type="submit" value="Envoyer" />
-                </form>
-
+                <Text>wesh ma poule</Text>
             </View>
         );
     }
