@@ -86,20 +86,20 @@ const LogoutStack = createStackNavigator({
     transitionConfig,
   });
 
-  const UpdateGroupStack = createStackNavigator({
-    UpdateGroup: {
-      screen: UpdateGroupScreen,
-      navigationOptions: ({ navigation }) => ({
-        header: <Header search tabs title="UpdateGroup" navigation={navigation} />,
-      })
-    },
+const UpdateGroupStack = createStackNavigator({
+  UpdateGroup: {
+    screen: UpdateGroupScreen,
+    navigationOptions: ({ navigation }) => ({
+      header: <Header search tabs title="UpdateGroup" navigation={navigation} />,
+    })
   },
-    {
-      cardStyle: {
-        backgroundColor: '#EEEEEE', //this is the backgroundColor for the app
-      },
-      transitionConfig,
-    });
+},
+  {
+    cardStyle: {
+      backgroundColor: '#EEEEEE', //this is the backgroundColor for the app
+    },
+    transitionConfig,
+  });
 const ExpensesGroupsStack = createStackNavigator({
   ExpensesGroups: {
     screen: ExpensesGroupsScreen,

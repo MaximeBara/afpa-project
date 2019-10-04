@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, View, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Dimensions, View, FlatList, TouchableOpacity, Button } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { Text, theme } from 'galio-framework';
 import axios from "axios";
@@ -12,12 +12,13 @@ export default class Expenses extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            _id: this.props.navigation.state.params._id,
-            usersList: this.props.navigation.state.params.usersList,
+            _id: this.props.navigation.state.params.expensesGroup._id,
+            usersList: this.props.navigation.state.params.expensesGroup.usersList,
             category: '',
             expenseName: '',
             amount: '',
-            expense: []
+            expense: [],
+            usersMap: new Map()
         };
     }
 
@@ -34,6 +35,18 @@ export default class Expenses extends React.Component {
             .catch(function (error) {
                 console.log(error);
             })
+
+        this.state.usersList.forEach(userId => {
+            axios.get('https://afpa-project.herokuapp.com/users/' + userId)
+                .then((response) => {
+                    this.setState({
+                        usersMap: this.state.usersMap.set(userId, response.data[0].pseudo)
+                    });
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+        })
     }
 
     handleCreateExpense = () => {
@@ -65,7 +78,7 @@ export default class Expenses extends React.Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.button}>
-                    <Button title='Report' onPress={() => this.props.navigation.navigate('ExpensesReport', { 'expenseGroupId': this.state._id })} style={{ marginBottom: 80 }}></Button>
+                    <Button title='Report' onPress={() => this.props.navigation.navigate('ExpensesReport', { 'expensesGroup': this.props.navigation.state.params.expensesGroup, 'expenseList': this.state.expense, 'usersMap': this.state.usersMap })} style={{ marginBottom: 80 }}></Button>
                 </View>
             </View>
         );
@@ -185,9 +198,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         margin: 10,
         marginTop: 50,
-      },
-    
-      FacebookStyle: {
+    },
+
+    FacebookStyle: {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#485a96',
@@ -199,20 +212,20 @@ const styles = StyleSheet.create({
         margin: 5,
         justifyContent: 'center',
         alignItems: 'center',
-      },
-    
-      ImageIconStyle: {
+    },
+
+    ImageIconStyle: {
         padding: 10,
         margin: 5,
         height: 25,
         width: 25,
         resizeMode: 'stretch',
-      },
-    
-      TextStyle: {
+    },
+
+    TextStyle: {
         color: '#fff',
         fontSize: 50,
         fontWeight: 'bold',
         marginBottom: 4,
-      },
+    },
 });

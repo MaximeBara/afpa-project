@@ -11,14 +11,16 @@ import axios from 'axios';
 
 export default class ExpensesReport extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         console.log("ExpensesReportScreen");
+        const { params } = this.props.navigation.state;
         this.state = {
-            _id: '',
-            expenseGroupName: '',
-            usersList: [],
-            expensesList: [],
+            _id: params && params.expensesGroup._id,
+            expenseGroupName: params && params.expensesGroup.expenseGroupName,
+            expenseList: params && params.expenseList,
+            usersList: params && params.expensesGroup.usersList,
+            usersMap: params && params.usersMap,
             whoOwesWhom: []
         }
     }
@@ -35,52 +37,31 @@ export default class ExpensesReport extends React.Component {
     }
 
     componentWillMount() {
-        axios.get('https://afpa-project.herokuapp.com/expensesGroups/' + this.props.navigation.state.params.expenseGroupId)
-            .then(res => {
-                let expenseGroup = res.data[0];
-                this.setState({
-                    _id: expenseGroup._id,
-                    expenseGroupName: expenseGroup.expenseGroupName,
-                    usersList: expenseGroup.usersList,
-                    expensesList: expenseGroup.expenseList
-                });
-                console.log('Test WhoOwesWhom: ', this.state.whoOwesWhom);
-                this.state.expensesList.forEach(expenseId => {
-                    axios.get('https://afpa-project.herokuapp.com/expenses/' + expenseId).then(result => {
-                        let expense = result.data[0];
-                        console.log('Expense: ', expenseId);
-                        let nbTos = expense.to.length;
-                        console.log('nbTos: ', nbTos);
-                        expense.to.forEach(to => {
-                            let currentWow = this.state.whoOwesWhom;
-                            let exists = (this.state.whoOwesWhom.length != 0)?this.checkIfExists(expense.from, to):0;
-                            console.log('Exists: ', exists);
-                            if (exists == 0)
-                                currentWow.push({
-                                    from: expense.from,
-                                    to: to,
-                                    amount: expense.amount / (nbTos + 1)
-                                })
-                            else if (exists == 1) {
-                                currentWow.forEach(wowElt => {
-                                    if (wowElt.from == expense.from && wowElt.to == to)
-                                        wowElt.amount += (expense.amount / (nbTos + 1));
-                                });
-                            } else {
-                                currentWow.forEach(wowElt => {
-                                    if (wowElt.from == to && wowElt.to == expense.from)
-                                        wowElt.amount -= (expense.amount / (nbTos + 1));
-                                });
-                            }
-                            this.setState({ whoOwesWhom: currentWow });
-                        });
-                        console.log('WhoOwesWhom: ', this.state.whoOwesWhom);
+        this.state.expenseList.forEach(expense => {
+            let nbTos = expense.to.length;
+            expense.to.forEach(to => {
+                let currentWow = this.state.whoOwesWhom;
+                let exists = (this.state.whoOwesWhom.length != 0) ? this.checkIfExists(expense.from, to) : 0;
+                if (exists == 0)
+                    currentWow.push({
+                        from: expense.from,
+                        to: to,
+                        amount: expense.amount / (nbTos + 1)
                     })
-                });
-            })
-            .catch(err => {
-                console.log('Axios Error: ', err);
-            })
+                else if (exists == 1) {
+                    currentWow.forEach(wowElt => {
+                        if (wowElt.from == expense.from && wowElt.to == to)
+                            wowElt.amount += (expense.amount / (nbTos + 1));
+                    });
+                } else {
+                    currentWow.forEach(wowElt => {
+                        if (wowElt.from == to && wowElt.to == expense.from)
+                            wowElt.amount -= (expense.amount / (nbTos + 1));
+                    });
+                }
+                this.setState({ whoOwesWhom: currentWow });
+            });
+        });
 
     }
 
@@ -89,10 +70,11 @@ export default class ExpensesReport extends React.Component {
             <View>
                 <FlatList
                     data={this.state.whoOwesWhom}
-                    renderItem={({ item, i }) => (
+                    renderItem={({ item }) => (
                         <ListItem
-                            key={i}
-                            title={`from: ${item.from} - to: ${item.to} - amount: ${item.amount}€`}
+                            key={item}
+                            title={`${item.amount}` > 0 ? `${this.state.usersMap.get(item.to)} doit ${Math.abs(item.amount.toFixed(2))}€ à ${this.state.usersMap.get(item.from)}` : `${this.state.usersMap.get(item.from)} doit ${Math.abs(item.amount.toFixed(2))}€ à ${this.state.usersMap.get(item.to)}` }
+                            leftAvatar={{ source: { uri: "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg" } }}
                             bottomDivider
                         />
                     )}
