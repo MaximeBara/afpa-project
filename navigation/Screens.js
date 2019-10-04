@@ -11,6 +11,7 @@ import SignupScreen from '../screens/Signup';
 import ExpensesGroupsScreen from '../screens/ExpensesGroups';
 import UpdateGroupScreen from '../screens/UpdateGroup'
 import ExpensesScreen from '../screens/Expenses';
+import ExpensesReportScreen from '../screens/ExpensesReport';
 import CreateExpenseScreen from '../screens/CreateExpense';
 import AboutScreen from '../screens/About';
 import ContactScreen from '../screens/Contact';
@@ -109,6 +110,11 @@ const ExpensesGroupsStack = createStackNavigator({
     screen: ExpensesScreen,
     navigationOptions: ({ navigation }) => ({
       header: <Header title="Expenses" navigation={navigation} />
+    })
+  }, ExpensesReport: {
+    screen: ExpensesReportScreen,
+    navigationOptions: ({ navigation }) => ({
+      header: <Header title="ExpensesReport" navigation={navigation} />
     })
   }
 },

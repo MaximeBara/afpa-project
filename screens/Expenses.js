@@ -64,6 +64,9 @@ export default class Expenses extends React.Component {
                         <Text style={styles.TextStyle}>+</Text>
                     </TouchableOpacity>
                 </View>
+                <View style={styles.button}>
+                    <Button title='Report' onPress={() => this.props.navigation.navigate('ExpensesReport', { 'expenseGroupId': this.state._id })} style={{ marginBottom: 80 }}></Button>
+                </View>
             </View>
         );
     }
@@ -167,6 +170,13 @@ const styles = StyleSheet.create({
         fontSize: 50,
         fontWeight: 'bold',
         marginBottom: 4,
+    },
+    button: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 15,
+        marginLeft: 20,
+        marginRight: 10
     },
 
     MainContainer: {

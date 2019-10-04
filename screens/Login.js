@@ -89,9 +89,6 @@ export default class Login extends React.Component {
           <FontAwesome.Button name="facebook" backgroundColor="#3b5998" onPress={() => this.facebookLogin()}>
             Login with Facebook
           </FontAwesome.Button>
-          {/* <FontAwesome.Button name="google" backgroundColor="##d3d3d3" onPress={this.onGoogleLogin}>
-                         Login with Google
-                    </FontAwesome.Button> */}
         </View>
       </Block>
     );
