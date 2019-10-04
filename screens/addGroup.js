@@ -6,7 +6,7 @@ import firebase from 'firebase';
 const { width } = Dimensions.get('screen');
 import axios from "axios";
 
-export default class UpdateGroup extends React.Component {
+export default class CreateGroup extends React.Component {
 
     constructor(props) {
         super(props);
@@ -59,7 +59,7 @@ export default class UpdateGroup extends React.Component {
     render() {
         return (
             <View style={styles.container} >
-                <Avatar
+                {/* <Avatar
                     size="xlarge"
                     rounded
                     source={{
@@ -70,12 +70,20 @@ export default class UpdateGroup extends React.Component {
                 <Block >
                     <Input
                         rounded color='blue' placeholder="group name" defaultValue={'Entrez vos informations'}  placeholderTextColor='red' />
-                </Block>
+                    {/* <Input
+                        rounded color='blue' placeholder="group name" defaultValue={'Entrez vos informations'}  placeholderTextColor='red' />
+                    <Input
+                        rounded color='blue' placeholder="group name" defaultValue={'Entrez vos informations'}  placeholderTextColor='red' /> */}
+                {/* </Block>
                 <Button
                     title="Confirmer"
                     // onPress={() => Alert.alert('Simple Button pressed')}
                     onPress={this.handleSubmit}
-                />
+                />  */}
+
+
+
+                
             </View>
         );
     }
