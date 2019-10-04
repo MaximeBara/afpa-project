@@ -8,7 +8,7 @@ export default class CreateExpense extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { usersList: [], categoryList: [], from: 'error', category: 'error' };
+        this.state = { usersList: [], categoryList: [], from: 'error', category: 'error', name: 'error', amount: 'error', checked: [] };
     }
 
     componentDidMount() {
@@ -62,11 +62,32 @@ export default class CreateExpense extends React.Component {
                                 borderWidth: 3
                             }}
                             label={i.firstname}
+                            onChange={(itemValue, itemIndex) =>
+                                this.checkedOrnot(itemValue,i.firstname)
+                            }
                         />
                     );
                 })}
             </View>
         )
+    }
+
+    checkedOrnot(itemValue,label) {
+        let array = this.state.checked;
+        if(itemValue.target) {
+            console.log('true');
+            array.push(label);
+            this.setState({ checked: array })
+        } else {
+            console.log('false');
+            for(let i = 0; i < array.length; i++){
+                if(array[i] == label) {
+                    array.splice(i,1);
+                }
+            }
+            this.setState({ checked: array })
+        }
+        console.log('checked : ', this.state.checked);
     }
 
     pickerUserList() {
@@ -100,8 +121,28 @@ export default class CreateExpense extends React.Component {
     }
 
     onPressButton() {
-        console.log('ONPRESS');
-        alert('You tapped the button!');
+        alert('expense add with success !');
+
+        const newExpense = {
+            category: this.state.category,
+            expenseName: this.state.name,
+            amount: this.state.amount,
+            currency: this.state.currency,
+            from: this.state.from,
+            to: this.state.checked,
+        }
+
+        axios.post('https://afpa-project.herokuapp.com/expenses', newExpense)
+            .then(res => {
+                console.log(res.data);
+                this.props.update();
+            });
+
+        this.setState({
+            title: '',
+            completed: false
+        })
+
     }
 
     render() {
@@ -118,6 +159,9 @@ export default class CreateExpense extends React.Component {
                         <Input
                             placeholder="Name"
                             color='black'
+                            onValueChange={(itemValue, itemIndex) =>
+                                this.setState({ name: itemValue })
+                            }
                         />
                     </Block>
                 </View>
@@ -137,6 +181,9 @@ export default class CreateExpense extends React.Component {
                             placeholder="Amount"
                             type='numeric'
                             color='black'
+                            onValueChange={(itemValue, itemIndex) =>
+                                this.setState({ amount: itemValue })
+                            }
                         />
                     </Block>
                 </View>
