@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, Picker, View, Button } from 'react-native';
+import { StyleSheet, Dimensions, Picker, View, Button, ScrollView  } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
 import { Block, Text, Input, theme, Icon, Card } from 'galio-framework';
 import firebase from 'firebase';
@@ -27,13 +27,13 @@ export default class UpdateGroup extends React.Component {
                     expenseGroupName: itemData.expenseGroupName,
                     usersList: itemData.usersList,
                     expenseList: itemData.expenseList
-                });
+                });             
             })
             .catch(function (error) {
                 console.log(error);
             })
     }
-
+    
     handleChange(event) {
         console.log(event)
         this.setState({ expenseGroupName: event });
@@ -45,15 +45,17 @@ export default class UpdateGroup extends React.Component {
                 alert('Le nom a été soumis : ' + this.state.expenseGroupName);
                 event.preventDefault();
                 console.log("Res: ", res);
-            })
+
+            })        
             .catch(function (error) {
                 console.log(error);
             })
     }
-
+ 
     render() {
         return (
             <View style={styles.container} >
+                 {/* <ScrollView style={styles.scrollView}> */}
                 <Avatar
                     size="xlarge"
                     rounded
@@ -65,12 +67,13 @@ export default class UpdateGroup extends React.Component {
                 <Block >
                     <Input
                         rounded color='blue' placeholder="group name" defaultValue={this.state.expenseGroupName} onChangeText={this.handleChange} placeholderTextColor='red' />
-                </Block>
+                </Block>              
                 <Button
                     title="Confirmer"
                     // onPress={() => Alert.alert('Simple Button pressed')}
                     onPress={this.handleSubmit}
                 />
+                 {/* </ScrollView> */}
             </View>
         );
     }
@@ -87,4 +90,8 @@ styles = StyleSheet.create({
     containerBis: {
         backgroundColor: '#fff',
     },
+    // scrollView: {
+    //     backgroundColor: 'pink',
+    //     marginHorizontal: 20,
+    //   },
 });
